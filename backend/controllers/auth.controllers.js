@@ -23,6 +23,12 @@ export const signUp = async (req,res)=>{
             role
         })
         const token=generateToken(newUser._id)
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:false,
+            sameSite:"strict",
+            maxAge:15*24*60*60*1000
+        })
         res.status(201).json({
             message:"User created successfully",
             user:newUser
