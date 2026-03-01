@@ -1,12 +1,37 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import { API_URL } from "../App";
 export default function SignUp() {
   const [active, setActive] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [role, setRole] = useState("user");
 
+  const handleSignUp = async () => {
+    try {
+      if (password !== confirmPassword) return alert("Passwords do not match");
+      const result = await axios.post(`${API_URL}/signup`, {
+        email, password, fullName, mobile, role
+      }, { withCredentials: true })
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSignIn = async () => {
+    try {
+      const result = await axios.post(`${API_URL}/signin`, {
+        email, password
+      }, { withCredentials: true })
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="page-wrapper w-screen h-screen flex justify-center items-center bg-gradient-to-b from-black to-purple-900">
       <div className=" main bg-neutral-800 w-full  max-w-md rounded-2xl p-4 flex flex-col gap-4">
@@ -65,8 +90,24 @@ export default function SignUp() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
+              <input
+                type="tel"
+                placeholder="mobile number"
+                className="w-full bg-neutral-700 text-black outline-0 py-1 px-2 rounded-[5px]"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+              />
+              <select
+                className="w-full bg-neutral-700 text-black outline-0 py-1 px-2 rounded-[5px]"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="user">User</option>
+                <option value="owner">Restaurant Owner</option>
+                <option value="deliveryBoy">Delivery Boy</option>
+              </select>
             </div>
-            <button className="bg-purple-700 hover:bg-purple-900 w-full py-2 rounded-2xl text-white font-bold transition-colors duration-200">
+            <button className="bg-purple-700 hover:bg-purple-900 w-full py-2 rounded-2xl text-white font-bold transition-colors duration-200" onClick={handleSignUp}>
               Create an account
             </button>
             <p className=" text-center uppercase text-gray-500 text-xs">or sigin with</p>
@@ -110,7 +151,7 @@ export default function SignUp() {
         <input type="password" placeholder="password" className="w-full bg-neutral-700 text-black outline-0 py-1 px-2 rounded-[5px]" value={password} onChange={(e) => setPassword(e.target.value)}/>
        
       </div>
-      <button className="bg-purple-700 hover:bg-purple-900 w-full py-2 rounded-2xl text-white font-bold transition-colors duration-200">Sign in</button>
+      <button className="bg-purple-700 hover:bg-purple-900 w-full py-2 rounded-2xl text-white font-bold transition-colors duration-200" onClick={handleSignIn}>Sign in</button>
       <p className=" text-center uppercase text-gray-500 text-xs">or sigin with</p>
         <div className="flex gap-3">
             <button className="w-full bg-neutral-700 hover:bg-neutral-600 py-2.5 rounded-xl transition-colors duration-200 flex items-center justify-center">
