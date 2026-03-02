@@ -29,10 +29,16 @@ export const signUp = async (req,res)=>{
             sameSite:"strict",
             maxAge:15*24*60*60*1000
         })
+        // Step 1: convert mongoose object to plain JS object
+        // Step 2: pull out password (throw it away as _)
+        // Step 3: put everything else into userWithoutPassword
+        const { password: _, ...userWithoutPassword } = newUser.toObject()
+        // Now send userWithoutPassword — no password inside! ✅
         res.status(201).json({
-            message:"User created successfully",
-            user:newUser
+        message: "User created successfully",
+        user: userWithoutPassword
         })
+    
 
     } catch (error) {
         console.log("error in signUp",error)
@@ -58,10 +64,15 @@ export const signIn=async (req,res)=>{
                 sameSite:"strict",
                 maxAge:15*24*60*60*1000
             })
-            res.status(200).json({
-                message:"Sign in successful",
-                user:user
-            })
+         // Step 1: convert mongoose object to plain JS object
+        // Step 2: pull out password (throw it away as _)
+        // Step 3: put everything else into userWithoutPassword
+        const { password: _, ...userWithoutPassword } = user.toObject()
+        // Now send userWithoutPassword — no password inside! ✅
+        res.status(201).json({
+        message: "User signed in successfully",
+        user: userWithoutPassword
+        })
     } catch (error) {
         console.log("error in signIn",error)
         res.status(500).json({message:"Internal server error"})

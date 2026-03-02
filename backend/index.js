@@ -8,6 +8,7 @@ dotenv.config();
 import express from 'express';
 //cors is used to allow cross-origin requests for my frontend
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 //connectDB is used to connect to the database
 import connectDB from './config/db.js';
 //signUp is used for user registration
@@ -18,6 +19,9 @@ const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 //parsing the incoming request body as json otherwise cannot read the json data from the request body
 app.use(express.json());
+//parsing the cookies from the incoming request
+app.use(cookieParser())
+
 //my port 
 const port = process.env.PORT || 3000;
 //
