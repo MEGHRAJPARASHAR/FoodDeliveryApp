@@ -1,9 +1,12 @@
 import bcrypt from "bcryptjs"
 import User from "../models/user.model.js"
 import generateToken from "../utils/generateToken.js"
+// function for SIGN UP 
 export const signUp = async (req,res)=>{
     try {
+        // taking name,email,password etc from req.body
         const {fullName,email,password,mobile,role}=req.body
+        //finding email if it already exist 
         const user=await User.findOne({email})
         if(user){
             return res.status(400).json({message:"User already exist."})
@@ -14,7 +17,9 @@ export const signUp = async (req,res)=>{
         if(mobile.length<10){
             return res.status(400).json({message:"the mobile number is less than 10 digits"})
         }
+        //hashing the password
         const hasedPassword = await bcrypt.hash(password,10)
+        // creating the user acoount and saving it in database
         const newUser= await User.create({
             fullName,
             email,
@@ -22,7 +27,9 @@ export const signUp = async (req,res)=>{
             mobile,
             role
         })
+        //generating the token using user _id
         const token=generateToken(newUser._id)
+        //sending the token in cookie with 15 days
         res.cookie("token",token,{
             httpOnly:true,
             secure:false,
@@ -45,19 +52,24 @@ export const signUp = async (req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
-
+// function for SIGN IN 
 export const signIn=async (req,res)=>{
     try {
+        //taking the email and password from req.body
         const {email,password}=req.body
+        //finding the email if it exist
         const user=await User.findOne({email})
         if(!user){
             return res.status(400).json({message:"User does not exist."})
         }
+        //checking if the password is same 
         const isMatch= await bcrypt.compare(password,user.password)
          if(!isMatch){
             return res.status(400).json({message:"Invalid credentials"})
          }
+         //generating the password using users id
             const token=generateToken(user._id)
+            //send the token to signin user
             res.cookie("token",token,{
                 httpOnly:true,
                 secure:false,
@@ -78,6 +90,7 @@ export const signIn=async (req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
+//creating getMe function for get request for user detail after middleware verification 
 export const getMe=async (req,res)=>{
     try {
         res.status(200).json({user:req.user})
