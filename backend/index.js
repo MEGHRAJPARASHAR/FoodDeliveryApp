@@ -11,8 +11,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 //connectDB is used to connect to the database
 import connectDB from './config/db.js';
+import authRoutes from './routes/auth.routes.js';
 //signUp is used for user registration
-import { signUp,signIn } from './controllers/auth.controllers.js';
+// import { signUp,signIn } from './controllers/auth.controllers.js';
 
 const app = express();
 //allowing cross-origin requests from my frontend
@@ -23,14 +24,17 @@ app.use(express.json());
 app.use(cookieParser())
 
 //my port 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 //
 app.get('/', (req, res) => {
     res.send("API is running....")
 });
-//routes for signUp and signIn
-app.post('/api/signup', signUp);
-app.post('/api/signin', signIn);
+// //routes for signUp and signIn
+// app.post('/api/signup', signUp);
+// app.post('/api/signin', signIn);
+
+app.use("/api/", authRoutes);
+
 //starting the server and connecting to the database
 app.listen(port, () => {
     connectDB();

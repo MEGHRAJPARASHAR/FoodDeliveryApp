@@ -78,3 +78,11 @@ export const signIn=async (req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
+export const getMe=async (req,res)=>{
+    try {
+        res.status(200).json({user:req.user})
+    } catch (error) {
+        console.log("error in getMe",error)
+        res.status(500).json({message:"Internal server error"})
+    }
+}
