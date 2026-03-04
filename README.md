@@ -211,8 +211,30 @@ PASS=your_gmail_app_password
 5. Owner updates order status
 ```
 
+> ⚠️ Create a `.env` file in backend/ with the variables above
+
+
+## 🚀 How to Run Locally
+
+### Backend
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 
 ---
+## 👨‍💻 Made by
+[Meghraj Parashar](https://github.com/MEGHRAJPARASHAR)
 
+
+---
 *Last updated: March 2026*
