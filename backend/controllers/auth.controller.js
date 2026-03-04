@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs"
 import User from "../models/user.model.js"
 import generateToken from "../utils/generateToken.js"
+import { sendOTPEmail } from "../utils/sendEmail.js"
 // function for SIGN UP 
 export const signUp = async (req,res)=>{
     try {
@@ -41,6 +42,7 @@ export const signUp = async (req,res)=>{
         // Step 3: put everything else into userWithoutPassword
         const { password: _, ...userWithoutPassword } = newUser.toObject()
         // Now send userWithoutPassword — no password inside! ✅
+        //code 201 for creating something
         res.status(201).json({
         message: "User created successfully",
         user: userWithoutPassword
@@ -81,7 +83,7 @@ export const signIn=async (req,res)=>{
         // Step 3: put everything else into userWithoutPassword
         const { password: _, ...userWithoutPassword } = user.toObject()
         // Now send userWithoutPassword — no password inside! ✅
-        res.status(201).json({
+        res.status(200).json({
         message: "User signed in successfully",
         user: userWithoutPassword
         })
@@ -96,6 +98,41 @@ export const getMe=async (req,res)=>{
         res.status(200).json({user:req.user})
     } catch (error) {
         console.log("error in getMe",error)
+        //code 500 for server error and 
         res.status(500).json({message:"Internal server error"})
     }
+}
+export const logOut=async (req,res)=>{
+    try {
+    //clearing the cookie named token 
+    res.clearCookie("token")
+    res.status(200).json({message:"the user logged out successfully"})
+    } catch (error) {
+     console.log(`the error is in logout function ${error}`)   
+     res.status(400).json({mesage:"error in logout"}) 
+    }
+}
+export const forgotPassword=async (req,res) => {
+   try {
+     const {email}=req.body
+    const user=await User.findOne({email})
+    if(!user){
+        return res.status(401).json({message:"user not found"})
+    }
+        const otp=Math.floor(100000 + Math.random() * 900000)
+        // save OTP with 10 minute expiry
+        user.otp = otp
+        user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000) // 10 minutes
+        await user.save()
+        await sendOTPEmail(email,otp)
+        res.status(200).json({message:"otp is sent sucessfully"})
+        
+   } catch (error) {
+        return res.status(400).json({message:"error in env",
+            eror:`${console.log(process.env.EMAIL)
+}`
+        })
+   }
+
+    
 }

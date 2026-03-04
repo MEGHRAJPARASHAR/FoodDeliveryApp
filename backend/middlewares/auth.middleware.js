@@ -4,9 +4,10 @@ export const protectRoute=async (req,res,next)=>{
     try {
         //taking token from cookies
         const token= req.cookies.token
-        //if token is present
+        //if token not present
         if(!token){
-           return res.status(401).json({message:"no token found"})
+            //code 401 for unauthorized access
+           return res.status(401).json({message:"Unauthorrized access, No token found"})
         }
         //verifying the token is valid
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
@@ -21,3 +22,4 @@ export const protectRoute=async (req,res,next)=>{
         res.status(401).json({message:"error in protected routes"})
     }
 }
+
