@@ -237,4 +237,5 @@ npm run dev
 
 
 ---
+Happy Holi 🫟 
 *Last updated: March 2026*
