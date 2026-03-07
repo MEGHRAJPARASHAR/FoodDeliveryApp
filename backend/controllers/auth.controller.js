@@ -136,3 +136,31 @@ export const forgotPassword=async (req,res) => {
 
     
 }
+export const verifyOTP = async (req, res) => {
+    try {
+        // get email and otp from body
+        const { email, otp } = req.body
+
+        // find user by email
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        // check if otp matches
+        if (user.otp !== otp) {
+            return res.status(400).json({ message: "Invalid OTP" })
+        }
+
+        // check if otp is expired
+        if (user.otpExpiry < Date.now()) {
+            return res.status(400).json({ message: "OTP expired" })
+        }
+
+        res.status(200).json({ message: "OTP verified successfully" })
+
+    } catch (error) {
+        console.log("error in verifyOTP", error)
+        res.status(500).json({ message: "Internal server error" })
+    }
+}
