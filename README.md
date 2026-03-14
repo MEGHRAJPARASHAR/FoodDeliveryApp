@@ -82,16 +82,16 @@ FoodDeliveryApp/
 ## 🔲 What's Remaining
 
 ### Auth (almost done!)
-- [ ] `verifyOTP` controller
-- [ ] `resetPassword` controller
+- [x] `verifyOTP` controller
+- [x] `resetPassword` controller
 
 ### Restaurant
-- [ ] `restaurant.model.js`
-- [ ] `restaurant.controller.js`
+- [x] `restaurant.model.js`
+- [x] `restaurant.controller.js`
 - [ ] `restaurant.routes.js`
 
 ### Menu Items
-- [ ] `menuItem.model.js`
+- [x] `menuItem.model.js`
 - [ ] `menuItem.controller.js`
 
 ### Cart
@@ -108,7 +108,7 @@ FoodDeliveryApp/
 - [ ] Live map tracking (delivery boy)
 
 ### Frontend
-- [ ] Connect SignUp/SignIn to backend with Axios
+- [x] Connect SignUp/SignIn to backend with Axios
 - [ ] Auth context / global state
 - [ ] Protected routes (`PrivateRoute`, `OwnerRoute`)
 - [ ] Restaurant listing page
