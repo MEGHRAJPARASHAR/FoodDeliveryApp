@@ -56,8 +56,8 @@ FoodDeliveryApp/
 | Logout | `POST /api/logout` | ✅ |
 | Get Me | `GET /api/me` | ✅ |
 | Forgot Password | `POST /api/forgot-password` | ✅ |
-| Verify OTP | `POST /api/verify-otp` | 🔲 |
-| Reset Password | `POST /api/reset-password` | 🔲 |
+| Verify OTP | `POST /api/verify-otp` | ✅ |
+| Reset Password | `POST /api/reset-password` | ✅ |
 
 ### 3. Middleware
 | Middleware | Purpose | Status |
@@ -82,16 +82,16 @@ FoodDeliveryApp/
 ## 🔲 What's Remaining
 
 ### Auth (almost done!)
-- [x] `verifyOTP` controller
-- [x] `resetPassword` controller
+- ✅ `verifyOTP` controller
+- ✅ `resetPassword` controller
 
 ### Restaurant
-- [x] `restaurant.model.js`
-- [x] `restaurant.controller.js`
+- ✅ `restaurant.model.js`
+- ✅ `restaurant.controller.js`
 - [ ] `restaurant.routes.js`
 
 ### Menu Items
-- [x] `menuItem.model.js`
+- ✅ `menuItem.model.js`
 - [ ] `menuItem.controller.js`
 
 ### Cart
@@ -108,7 +108,7 @@ FoodDeliveryApp/
 - [ ] Live map tracking (delivery boy)
 
 ### Frontend
-- [x] Connect SignUp/SignIn to backend with Axios
+- ✅ Connect SignUp/SignIn to backend with Axios
 - [ ] Auth context / global state
 - [ ] Protected routes (`PrivateRoute`, `OwnerRoute`)
 - [ ] Restaurant listing page
