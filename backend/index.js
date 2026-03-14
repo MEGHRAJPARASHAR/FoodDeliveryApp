@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 // app.post('/api/signup', signUp);
 // app.post('/api/signin', signIn);
 
-app.use("/api/", authRoutes);
+app.use("/api/auth/", authRoutes);
 
 //starting the server and connecting to the database
 app.listen(port, () => {

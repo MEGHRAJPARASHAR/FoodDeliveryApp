@@ -1,5 +1,5 @@
 import express from "express";
-import { signIn, signUp,getMe, logOut, forgotPassword } from "../controllers/auth.controller.js";
+import { signIn, signUp,getMe, logOut, forgotPassword, verifyOTP, resetPassword } from "../controllers/auth.controller.js";
 import { protectRoute } from "../middlewares/auth.middleware.js";
 import { checkRole } from "../middlewares/checkRole.middleware.js";
 
@@ -13,5 +13,7 @@ router.get("/me",protectRoute,checkRole("user"),getMe)
 //route for the logOut
 router.post("/logout",logOut)
 router.post("/forgot-password",forgotPassword)
+router.post("/verify-otp",verifyOTP)
+router.post("/reset-password",resetPassword)
 
 export default router
