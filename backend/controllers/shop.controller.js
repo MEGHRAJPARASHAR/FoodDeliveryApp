@@ -1,3 +1,4 @@
+import Item from "../models/item.model.js";
 import Shop from "../models/shop.model.js";
 
 export const createShop = async (req, res) => {
@@ -5,17 +6,13 @@ export const createShop = async (req, res) => {
     const { name, image, city, state, address } = req.body;
 
     if (!name || !city || !state || !address) {
-      return res
-        .status(400)
-        .json({ message: "Please fill all required fields" });
+      return res.status(400).json({ message: "Please fill all required fields" });
     }
 
     const owner = req.user?._id || req.user?.id;
     const existingShop = await Shop.findOne({ owner, name: name.trim() });
     if (existingShop) {
-      return res
-        .status(409)
-        .json({ message: "Shop with this name already exists for this owner" });
+      return res.status(409).json({ message: "Shop with this name already exists for this owner" });
     }
 
     const shop = await Shop.create({
@@ -89,14 +86,17 @@ export const updateShop = async (req, res) => {
 export const deleteShop = async (req, res) => {
   try {
     const { id } = req.params;
+    //we are deleting the shop only if the shop belongs to the user who is making the request
     const shop = await Shop.findOneAndDelete({
       _id: id,
       owner: req.user?._id || req.user?.id,
     });
+    await  Item.deleteMany({ shop: id })
 
     if (!shop) {
       return res.status(404).json({ message: "Shop not found or not allowed" });
     }
+
 
     return res.status(200).json({ message: "Shop deleted successfully", shop });
   } catch (error) {
