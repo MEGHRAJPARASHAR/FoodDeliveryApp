@@ -12,7 +12,6 @@ node_modules
 dist
 dist-ssr
 *.local
-.FoodDeliveryApp_Notes.md
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

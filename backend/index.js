@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import shopRoutes from './routes/shop.routes.js'
+import itemRouter from './routes/item.routes.js';
 //signUp is used for user registration
 // import { signUp,signIn } from './controllers/auth.controllers.js';
 
@@ -34,8 +35,10 @@ app.get('/', (req, res) => {
 // app.post('/api/signup', signUp);
 // app.post('/api/signin', signIn);
 
-app.use("/api/auth/", authRoutes);
-app.use("/api/shop/", shopRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/shop", shopRoutes);
+app.use("/api/item", itemRouter);
+
 
 //starting the server and connecting to the database
 app.listen(port, () => {
