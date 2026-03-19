@@ -13,7 +13,7 @@ export const protectRoute=async (req,res,next)=>{
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
         // This removes password from req.user
         const user = await User.findById(decoded.id).select('-password')
-        // adding user in req 
+        // adding user details from database in req 
         req.user=  user
         // next for next middleware
         next()

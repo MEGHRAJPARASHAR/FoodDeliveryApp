@@ -3,11 +3,11 @@ import Shop from '../models/shop.model.js';
 
 export const createItem = async (req, res) => {
     try {
-        //taking input from req.body
+        //taking these from frontend
         const { name, image, category, price, foodType } = req.body;
-        //taking shopId from req.params
+        //taking shopId from req.params 
         const shopId = req.params.shopId;
-        //checking if shop exists
+        //checking if shop exists by finding it with its id
         const shop = await Shop.findById(shopId);
         if (!shop) {
             //if shop does not exist, return 404
@@ -22,7 +22,7 @@ export const createItem = async (req, res) => {
             foodType,
             shop: shopId
         });
-        //pushing new item to shop's items array,if i dont do this then shop will not have reference to the item and when we get shop by id, it will not return items=[] empty array
+        //pushing new item to shop's items array,if i dont do this then shop will not have reference to the item and when we get shop by id, it will return items=[] empty array
         shop.items.push(newItem._id);
         //saving the shop after pushing new item to items array
         await shop.save();
