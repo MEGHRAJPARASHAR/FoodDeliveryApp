@@ -14,6 +14,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import shopRoutes from './routes/shop.routes.js'
 import itemRouter from './routes/item.routes.js';
+import { authRateLimiter, generalRateLimiter } from './middlewares/rateLimiter.middleware.js';
 //signUp is used for user registration
 // import { signUp,signIn } from './controllers/auth.controllers.js';
 
@@ -24,7 +25,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 //parsing the cookies from the incoming request
 app.use(cookieParser())
-
+app.use(generalRateLimiter)
 //my port 
 const port = process.env.PORT || 5000;
 //
@@ -35,7 +36,7 @@ app.get('/', (req, res) => {
 // app.post('/api/signup', signUp);
 // app.post('/api/signin', signIn);
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth",authRateLimiter, authRoutes);
 app.use("/api/shop", shopRoutes);
 app.use("/api/item", itemRouter);
 
