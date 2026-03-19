@@ -11,22 +11,33 @@
 FoodDeliveryApp/
 ├── backend/
 │   ├── config/
-│   │   └── db.js                  ✅ done
+│   │   └── db.js                   ✅ done
 │   ├── controllers/
-│   │   ├── auth.controller.js     ✅ done
-│   │   └── user.controller.js     ✅ done
+│   │   ├── auth.controller.js      ✅ done
+│   │   ├── shop.controller.js      ✅ done
+│   │   ├── item.controller.js      ✅ done
+│   │   ├── cart.controller.js      ✅ done
+│   │   └── order.controller.js     ❌ pending
 │   ├── middlewares/
-│   │   ├── auth.middleware.js     ✅ done
+│   │   ├── auth.middleware.js      ✅ done
 │   │   └── checkRole.middleware.js ✅ done
 │   ├── models/
-│   │   └── user.model.js          ✅ done
+│   │   ├── user.model.js           ✅ done
+│   │   ├── shop.model.js           ✅ done
+│   │   ├── item.model.js           ✅ done
+│   │   ├── cart.model.js           ✅ done
+│   │   └── order.model.js          ❌ pending
 │   ├── routes/
-│   │   └── auth.routes.js         ✅ done
+│   │   ├── auth.routes.js          ✅ done
+│   │   ├── shop.routes.js          ✅ done
+│   │   ├── item.routes.js          ✅ done
+│   │   ├── cart.routes.js          ✅ done
+│   │   └── order.routes.js         ❌ pending
 │   ├── utils/
-│   │   ├── generateToken.js       ✅ done
-│   │   └── sendEmail.js           ✅ done
-│   ├── .env                       ✅ done 
-│   └── index.js                   ✅ done
+│   │   ├── generateToken.js        ✅ done
+│   │   └── sendEmail.js            ✅ done
+│   ├── .env                        ✅ done
+│   └── index.js                    ✅ done
 │
 └── frontend/
     ├── src/
@@ -42,7 +53,7 @@ FoodDeliveryApp/
 ## ✅ What's Done So Far
 
 ### 1. Backend Setup
-- Express server running on port `5000`
+- Express server running on port `3000`
 - MongoDB connected via Mongoose
 - CORS configured for frontend (`http://localhost:5173`)
 - Cookie Parser and dotenv configured
@@ -51,29 +62,50 @@ FoodDeliveryApp/
 ### 2. Auth System
 | Feature | Route | Status |
 |--------|-------|--------|
-| Sign Up | `POST /api/signup` | ✅ |
-| Sign In | `POST /api/signin` | ✅ |
-| Logout | `POST /api/logout` | ✅ |
-| Get Me | `GET /api/me` | ✅ |
-| Forgot Password | `POST /api/forgot-password` | ✅ |
-| Verify OTP | `POST /api/verify-otp` | ✅ |
-| Reset Password | `POST /api/reset-password` | ✅ |
+| Sign Up | `POST /api/auth/signup` | ✅ |
+| Sign In | `POST /api/auth/signin` | ✅ |
+| Logout | `POST /api/auth/logout` | ✅ |
+| Get Me | `GET /api/auth/me` | ✅ |
+| Forgot Password | `POST /api/auth/forgot-password` | ✅ |
+| Verify OTP | `POST /api/auth/verify-otp` | ✅ |
+| Reset Password | `POST /api/auth/reset-password` | ✅ |
 
 ### 3. Middleware
 | Middleware | Purpose | Status |
 |-----------|---------|--------|
-| `protectRoute` | Checks JWT token from cookie | ✅ |
-| `checkRole(role)` | Checks if user has correct role | ✅ |
+| `protectRoute` | Verifies JWT token from cookie, attaches user to req | ✅ |
+| `checkRole(role)` | Checks if logged in user has the required role | ✅ |
 
-### 4. User Profile
+### 4. Shop System
 | Feature | Route | Status |
 |--------|-------|--------|
-| Get Profile | `GET /api/user/profile` | ✅ |
-| Update Profile | `PUT /api/user/profile` | ✅ |
+| Create Shop | `POST /api/shop/create-shop` | ✅ |
+| Get All Shops | `GET /api/shop/` | ✅ |
+| Get Shop By ID | `GET /api/shop/:id` | ✅ |
+| Update Shop | `PUT /api/shop/:id` | ✅ |
+| Delete Shop | `DELETE /api/shop/:id` | ✅ |
 
-### 5. Frontend
+### 5. Item System
+| Feature | Route | Status |
+|--------|-------|--------|
+| Create Item | `POST /api/item/:shopId/create-item` | ✅ |
+| Get All Items | `GET /api/item/` | ✅ |
+| Get Item By ID | `GET /api/item/:id` | ✅ |
+| Update Item | `PUT /api/item/:id` | ✅ |
+| Delete Item | `DELETE /api/item/:id` | ✅ |
+
+### 6. Cart System
+| Feature | Route | Status |
+|--------|-------|--------|
+| Add To Cart | `POST /api/cart/add` | ✅ |
+| Get Cart | `GET /api/cart/` | ✅ |
+| Update Quantity | `PUT /api/cart/update` | ✅ |
+| Remove Item | `DELETE /api/cart/remove/:itemId` | ✅ |
+| Clear Cart | `DELETE /api/cart/clear` | ✅ |
+
+### 7. Frontend
 - React + Vite setup
-- Tailwind CSS configured
+- Tailwind CSS v4 configured
 - React Router DOM installed
 - SignUp page UI built
 
@@ -81,72 +113,92 @@ FoodDeliveryApp/
 
 ## 🔲 What's Remaining
 
-### Auth (almost done!)
-- ✅ `verifyOTP` controller
-- ✅ `resetPassword` controller
-
-### Restaurant
-- ✅ `restaurant.model.js`
-- ✅ `restaurant.controller.js`
-- [ ] `restaurant.routes.js`
-
-### Menu Items
-- ✅ `menuItem.model.js`
-- [ ] `menuItem.controller.js`
-
-### Cart
-- [ ] `cart.model.js`
-- [ ] `cart.controller.js`
-
 ### Orders
 - [ ] `order.model.js`
 - [ ] `order.controller.js`
+- [ ] `order.routes.js`
 
 ### Advanced Features
+- [ ] Multer + Cloudinary (image uploads)
 - [ ] Payment integration (Razorpay)
 - [ ] Socket.io (real-time order updates)
-- [ ] Live map tracking (delivery boy)
+- [ ] Live map tracking (Leaflet + GeoJSON)
 
 ### Frontend
-- ✅ Connect SignUp/SignIn to backend with Axios
-- [ ] Auth context / global state
-- [ ] Protected routes (`PrivateRoute`, `OwnerRoute`)
-- [ ] Restaurant listing page
-- [ ] Menu page
+- [ ] Sign In page UI
+- [ ] Auth state (Redux / Context)
+- [ ] Protected routes
+- [ ] User dashboard (browse shops + food)
 - [ ] Cart page
-- [ ] Order tracking page
-- [ ] Owner dashboard
+- [ ] Checkout page with map
+- [ ] Order history page
+- [ ] Owner dashboard (manage shop + items + orders)
+- [ ] Delivery boy dashboard
 
 ---
-
 
 ## 🗃️ Database Models
 
 ### User Model
 ```js
 {
-  fullName: String,     required
-  email: String,        required, unique
-  password: String,     hashed with bcrypt
-  mobile: String,       required
-  role: String,         enum: ["user", "owner", "deliveryBoy"]
-  otp: String,          for forgot password
-  otpExpiry: Date,      expires in 10 minutes
+  fullName: String,     // required
+  email: String,        // required, unique
+  password: String,     // hashed with bcrypt
+  mobile: String,       // required
+  role: String,         // enum: ["user", "owner", "deliveryBoy"]
+  otp: String,          // for forgot password flow
+  otpExpiry: Date,      // OTP expires in 10 minutes
   timestamps: true
 }
 ```
 
-### Restaurant Model (next)
+### Shop Model
 ```js
 {
-  name: String,         required
-  description: String,
-  image: String,
-  cuisineType: String,
-  address: String,      required
-  isOpen: Boolean,
-  owner: ObjectId,      ref: "User"
+  name: String,         // required
+  image: String,        // shop image URL
+  owner: ObjectId,      // ref: "User" (must be role: owner)
+  city: String,         // required
+  state: String,        // required
+  address: String,      // required
+  items: [ObjectId],    // ref: "Item" array
   timestamps: true
+}
+```
+
+### Item Model
+```js
+{
+  name: String,         // required
+  image: String,        // required, item image URL
+  shop: ObjectId,       // ref: "Shop"
+  category: String,     // enum: ["Pizza", "Burgers", "Snacks" ...]
+  price: Number,        // required, min: 0
+  foodType: String,     // enum: ["veg", "non veg"]
+  timestamps: true
+}
+```
+
+### Cart Model
+```js
+{
+  user: ObjectId,       // ref: "User", unique (one cart per user)
+  items: [
+    {
+      item: ObjectId,   // ref: "Item"
+      quantity: Number  // default: 1
+    }
+  ],
+  timestamps: true
+  // totalPrice is NOT stored — calculated on the fly using item.price * quantity
+}
+```
+
+### Order Model ❌ pending
+```js
+{
+  // coming soon
 }
 ```
 
@@ -160,19 +212,20 @@ FoodDeliveryApp/
 | `express` | Web framework |
 | `mongoose` | MongoDB ODM |
 | `bcryptjs` | Password hashing |
-| `jsonwebtoken` | JWT tokens |
-| `cookie-parser` | Parse cookies |
-| `cors` | Cross-origin requests |
-| `dotenv` | Environment variables |
-| `nodemailer` | Send emails |
-| `nodemon` | Auto restart server |
+| `jsonwebtoken` | JWT auth tokens |
+| `cookie-parser` | Parse cookies from requests |
+| `cors` | Allow frontend to talk to backend |
+| `dotenv` | Load environment variables |
+| `nodemailer` | Send OTP emails |
+| `nodemon` | Auto restart server on changes |
+| `express-rate-limit` | Prevent brute force attacks |
 
 ### Frontend
 | Package | Purpose |
 |---------|---------|
 | `react` | UI library |
 | `react-router-dom` | Page routing |
-| `axios` | API calls |
+| `axios` | API calls to backend |
 | `tailwindcss` | Styling |
 
 ---
@@ -182,37 +235,48 @@ FoodDeliveryApp/
 ```
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
-PORT=5000
+PORT=3000
 EMAIL=youremail@gmail.com
 PASS=your_gmail_app_password
 ```
 
 ---
 
-## 🚗 Upcoming: User Flow (Minimum Working App)
+## 🚗 User Flow
 
 ```
 1. User signs up / signs in
-2. User sees list of restaurants
-3. User clicks restaurant → sees menu
+2. User sees list of shops based on their city
+3. User clicks shop → sees menu items
 4. User adds items to cart
-5. User places order
-6. User sees order status (real-time with Socket.io)
-7. Delivery boy picks up → map tracking starts
+5. User places order with delivery address on map
+6. User pays via Razorpay or Cash on Delivery
+7. Owner updates order status (Pending → Preparing → Out for Delivery)
+8. Delivery boy accepts order → live map tracking starts
+9. Delivery boy delivers → OTP confirmation → order marked Delivered
 ```
 
-## 🏪 Upcoming: Owner Flow
+## 🏪 Owner Flow
 
 ```
 1. Owner signs up with role "owner"
-2. Owner creates restaurant
-3. Owner adds menu items
-4. Owner sees incoming orders
+2. Owner creates their shop (name, address, city, image)
+3. Owner adds menu items (name, price, category, image)
+4. Owner sees incoming orders on dashboard
 5. Owner updates order status
 ```
 
-> ⚠️ Create a `.env` file in backend/ with the variables above
+## 🛵 Delivery Boy Flow
 
+```
+1. Delivery boy signs up with role "deliveryBoy"
+2. Receives broadcast when order is "Out for Delivery" nearby
+3. Accepts the order
+4. Live location tracked on map
+5. Enters OTP from customer to mark as Delivered
+```
+
+---
 
 ## 🚀 How to Run Locally
 
@@ -230,12 +294,10 @@ npm install
 npm run dev
 ```
 
-
 ---
+
 ## 👨‍💻 Made by
 [Meghraj Parashar](https://github.com/MEGHRAJPARASHAR)
 
-
 ---
-Happy Holi 🫟 
 *Last updated: March 2026*
