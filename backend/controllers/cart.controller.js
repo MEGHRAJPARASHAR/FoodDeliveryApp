@@ -39,13 +39,50 @@ export const createCart=async (req,res) => {
     }
 }
 
-```
-1. Get userId from req.user._id (logged in user)
-2. Get itemId and quantity from req.body
-3. Find if this user already has a cart in database
-4. If NO cart exists → create a new cart with this item
-5. If cart EXISTS → check if this item is already in the cart
-      - If item already in cart → just increase its quantity
-      - If item not in cart → push it as new entry
-6. Save and return the cart
-```
+export const getCart =async (req,res) => {
+    try {
+        const userId=req.user._id
+        const existingCart=await Cart.findOne({user:userId}).populate("items.item")
+        if(!existingCart){
+            return res.status(400).json({message:"No cart found"})
+        }
+        //  array.reduce((accumulator, currentValue) => {
+        //  return newAccumulator
+        // }, initialValue)
+        const totalPrice=existingCart.items.reduce((total,obj)=>{
+           return total+obj.item.price*obj.quantity        
+        },0)
+        return res.status(200).json({message:`The total price is ${totalPrice}`,cart:existingCart})
+
+    } catch (error) {
+        return res.status(500).json({message:"Internal server error"})
+      
+    }
+}
+export const updateQuantity=async (req,res) => {
+    try {
+        const userId=req.user._id
+        const {itemId,quantity}=req.body
+        const existingCart=await Cart.findOne({user:userId})
+        if(!existingCart){
+            return res.status(404).json({message:"No cart found"})
+        }
+        const item=existingCart.items.find((obj)=>obj.item.toString()===itemId)
+        if(!item){
+            return res.status(404).json({message:"No item found"})
+        }
+        item.quantity=quantity
+        await existingCart.save()
+            return res.status(200).json({message:"Item updated",item})
+    } catch (error) {
+            return res.status(500).json({message:"Internal server error"})
+    }
+}
+// 1. Get userId from req.user._id
+// 2. Get itemId and quantity from req.body
+// 3. Find cart of this user
+// 4. If no cart → return 404
+// 5. Find the specific item inside cart.items array
+// 6. If item not found → return 404
+// 7. Update its quantity
+// 8. Save and return cart
