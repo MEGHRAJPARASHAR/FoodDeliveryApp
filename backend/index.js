@@ -14,6 +14,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import shopRoutes from './routes/shop.routes.js'
 import itemRouter from './routes/item.routes.js';
+import cartRouter from './routes/cart.routes.js';
 import { authRateLimiter, generalRateLimiter } from './middlewares/rateLimiter.middleware.js';
 //signUp is used for user registration
 // import { signUp,signIn } from './controllers/auth.controllers.js';
@@ -39,6 +40,8 @@ app.get('/', (req, res) => {
 app.use("/api/auth",authRateLimiter, authRoutes);
 app.use("/api/shop", shopRoutes);
 app.use("/api/item", itemRouter);
+app.use("/api/cart", cartRouter);
+
 
 
 //starting the server and connecting to the database

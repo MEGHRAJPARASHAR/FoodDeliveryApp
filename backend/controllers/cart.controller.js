@@ -15,12 +15,12 @@ export const createCart=async (req,res) => {
                 
             })
             return res.status(201).json({message:"cart created successfully",newCart})
-         }//since my data is like this ,and i have to traverse on each to find the correct item
+         }
+    //since my data is like this ,and i have to traverse on each to find the correct item
     //     items = [
     //     { _id: "abc", item: "itemId1", quantity: 2 }, // this is a obj
     //     { _id: "def", item: "itemId2", quantity: 1 }]
     // 
-
       const existingItem=existingCart.items.find((obj)=>{
        return obj.item.toString()===itemId
       })
@@ -44,7 +44,7 @@ export const getCart =async (req,res) => {
         const userId=req.user._id
         const existingCart=await Cart.findOne({user:userId}).populate("items.item")
         if(!existingCart){
-            return res.status(400).json({message:"No cart found"})
+            return res.status(404).json({message:"No cart found"})
         }
         //  array.reduce((accumulator, currentValue) => {
         //  return newAccumulator
@@ -68,7 +68,7 @@ export const updateQuantity=async (req,res) => {
             return res.status(404).json({message:"No cart found"})
         }
         const item=existingCart.items.find((obj)=>obj.item.toString()===itemId)
-        if(!item){
+        if(!item || quantity<=0){
             return res.status(404).json({message:"No item found"})
         }
         item.quantity=quantity
@@ -78,11 +78,24 @@ export const updateQuantity=async (req,res) => {
             return res.status(500).json({message:"Internal server error"})
     }
 }
-// 1. Get userId from req.user._id
-// 2. Get itemId and quantity from req.body
-// 3. Find cart of this user
-// 4. If no cart → return 404
-// 5. Find the specific item inside cart.items array
-// 6. If item not found → return 404
-// 7. Update its quantity
-// 8. Save and return cart
+export const deleteItem=async (req,res) => {
+    try {
+        const userId=req.user._id
+        const {itemId}=req.params
+        const existingCart=await Cart.findOneAndUpdate({user:userId},{$pull:{items:{item:itemId}}},{new:true})
+        if(!existingCart) return res.status(404).json({message:"no cart found"})
+        return res.status(200).json({message:"item deleted",cart:existingCart})
+    } catch (error) {
+        return res.status(500).json({message:"Internal server error"})
+    }
+}
+export const deleteCart=async (req,res) => {
+    try {
+        const userId=req.user._id
+        const existingCart=await Cart.findOneAndUpdate({user:userId},{items:[]},{new:true})
+        if(!existingCart) return res.status(404).json({message:"no cart found"})
+         return res.status(200).json({message: "cart cleared", cart: existingCart})
+    } catch (error) {
+        return res.status(500).json({message:"Internal server error"})
+    }
+}
