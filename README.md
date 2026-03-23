@@ -114,8 +114,8 @@ FoodDeliveryApp/
 ## 🔲 What's Remaining
 
 ### Orders
-- [ ] `order.model.js`
-- [ ] `order.controller.js`
+- ✅ `order.model.js`
+- ✅ `order.controller.js`
 - [ ] `order.routes.js`
 
 ### Advanced Features
