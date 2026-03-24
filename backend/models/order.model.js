@@ -3,7 +3,7 @@ import mongoose, { mongo } from "mongoose"
 const orderItemSchema= new mongoose.Schema({
     item:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Items",
+        ref:"Item",
         required:true
     },
     quantity:{
