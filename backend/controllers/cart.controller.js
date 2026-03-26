@@ -1,38 +1,42 @@
 import Cart from "../models/cart.model.js";
+import Item from "../models/item.model.js";
 export const createCart=async (req,res) => {
     try {
-        const userId=req.user._id
-        const {itemId,quantity}=req.body
-        // ❌ findById only accepts an _id value, not an object
-        // const existingCart = await Cart.findById({ user: userId })
+        const userId=req.user._id //getting from middleware
+        const {itemId,quantity}=req.body //getting from frontend
 
-        //  findOne accepts filter conditions
-        const existingCart = await Cart.findOne({ user: userId })
-        if(!existingCart){
+        // ❌ findById only accepts an _id value, not an object
+        // const existingCart = await Cart.findById({ user: userId }) wrong ❌
+        //  findOne accepts filter conditions ✔
+        const existingCart = await Cart.findOne({ user: userId }).populate("items.item")//it exist or not
+        if(!existingCart){ //if not ,then create a new one 
             const newCart=await Cart.create({
                 user:userId,
                 items:[{item:itemId,quantity}]
                 
             })
             return res.status(201).json({message:"cart created successfully",newCart})
-         }
-    //since my data is like this ,and i have to traverse on each to find the correct item
+         }//Is the Item i am trying to add already exist in cart ❕ 
+    //since my data is like this ,and i have to traverse on each to find the correct item😑
     //     items = [
-    //     { _id: "abc", item: "itemId1", quantity: 2 }, // this is a obj
+    //     { _id: "abc", item: "itemId1", quantity: 2 }, // this is a obj {...}
     //     { _id: "def", item: "itemId2", quantity: 1 }]
-    // 
       const existingItem=existingCart.items.find((obj)=>{
-       return obj.item.toString()===itemId
+       return obj.item._id.toString()===itemId //for finding the item in the cart and return it in existingItem
       })
-      if(existingItem){  
-      existingItem.quantity+=quantity
+      if(existingItem){ //if item is in cart then just add its quantity
+      existingItem.quantity+=quantity //and just save it😁
       await existingCart.save()
     return res.status(200).json({message:"item quantity increased in cart",existingCart})
-
-}else{
+                    }
+    else{
+       const newItem= await Item.findById(itemId)
+    if(existingCart.items[0].item.shop.toString()!==newItem.shop.toString()){
+        return res.status(400).json({message:"clear cart because item should be from same shop"})
+    }
     existingCart.items.push({item:itemId,quantity})
     await existingCart.save()
-    return res.status(200).json({message:"item added in cart",existingCart})
+    return res.status(200).json({message:"item added",cart:existingCart})
 }
     } catch (error) {
         return res.status(500).json({message:"Internal error"})

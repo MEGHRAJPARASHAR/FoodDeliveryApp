@@ -1,12 +1,15 @@
 import express from 'express';
-import { createOrder, getAllOrders, getOrderById } from '../controllers/order.controller';
-import { protectRoute } from '../middlewares/auth.middleware';
+import { cancelOrder, createOrder, getAllOrders, getOrderById, getShopOrders, updateOrderStatus } from '../controllers/order.controller.js';
+import { protectRoute } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
-router.get('/', getAllOrders)
-router.get('/:id', getOrderById)
-router.get('/create-order',protectRoute, createOrder)
+router.post('/create-order',protectRoute, createOrder)
+router.get('/',protectRoute, getAllOrders)
+router.get('/shop/:shopId',protectRoute, getShopOrders)
+router.get('/:id',protectRoute, getOrderById)
+router.put('/:orderId/status',protectRoute, updateOrderStatus)
+router.put('/:orderId/cancel',protectRoute, cancelOrder)
 
 
 export default router;
