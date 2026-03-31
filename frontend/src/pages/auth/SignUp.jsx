@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch} from "react-redux"
 import api from "../../api/axios"
 import {setUser,setLoading,setError} from "../../features/auth/authSlice"
+import { useNavigate } from 'react-router-dom'
 function SignUp() {
     const [fullName, setfullName] = useState('')
     const [email, setEmail] = useState('')
@@ -9,13 +10,16 @@ function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [mobile, setMobile] = useState('')
     const [role, setRole] = useState('')
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const handleSubmit = async(e) => {
-        e.preventDefault()
+        e.preventDefault() //prevent default form submission behavior
+      // Stop request if password confirmation does not match.
         if(password !== confirmPassword){
             alert("Passwords do not match")
             return
         }
+      // Send only the fields expected by the signup API.
         const formData = {
             fullName,
             email,
@@ -24,23 +28,26 @@ function SignUp() {
             role
         }
         console.log(formData)
-        dispatch(setLoading(true))
+        dispatch(setLoading(true)) //setting loading state to true before making API call
         try {
             const res = await api.post("/api/auth/signup", formData)
             console.log(res.data)
+        // Save user data in Redux store after successful registration.
             dispatch(setUser(res.data.user))
+            navigate('/') //redirect to dashboard after successful sign-up
         } catch (err) {
             console.error(err.message)
+        // Prefer backend error details when available for better feedback.
             dispatch(setError(err.response?.data?.message || "An error occurred"))
         } finally{
-            dispatch(setLoading(false))
+            dispatch(setLoading(false)) //setting loading state to false after API call is completed, regardless of success or failure
         }
     }
 
   return (
-    <div className="signup bg-black text-white h-screen flex flex-col items-center justify-center">
-      <h1>SignUp</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-2 border-[1px] border-gray-500 p-4 rounded linear-gradient-to-r from-gray-100 to-gray-900'>
+    <div className="signup bg-gray-950 text-white h-screen flex flex-col items-center justify-center">
+      <h1 className='text-3xl inline-block bg-linear-to-r from-purple-500 to-blue-500 git add  bg-clip-text text-transparent'>SignUp</h1>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-2 border border-gray-500 p-4 rounded bg-linear-to-b from-gray-700 to-gray-900'>      
         <input type="text" value={fullName} onChange={(e)=>setfullName(e.target.value)} name="fullName" placeholder="fullName" />
         <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} name="email" placeholder="Email" />
         <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="password" placeholder="Password" />
@@ -52,7 +59,7 @@ function SignUp() {
         <option value="owner">Owner</option>
         <option value="deliveryBoy">Delivery Boy</option>
       </select>
-      <button type="submit" className='border-1 rounded-2xl bg-gray-900'>Sign Up</button>
+      <button type="submit" className='border rounded-2xl bg-gray-900'>Sign Up</button>
     </form>
     
     </div>
