@@ -1,7 +1,7 @@
-# 🍕 Food Delivery App — Project Documentation
+# 🍕 Bingo — Food Delivery App
  
-> A full stack MERN app with real-time tracking, payments, and role-based access.
-> **Stack:** MongoDB · Express · React · Node.js
+> A full-stack MERN food delivery app (Zomato/Swiggy clone) with JWT auth, role-based access control, DB-backed cart, and order management.
+> **Stack:** MongoDB · Express 5 · React 19 · Node.js
  
 ---
  
@@ -11,56 +11,61 @@
 FoodDeliveryApp/
 ├── backend/
 │   ├── config/
-│   │   └── db.js                   ✅ done
+│   │   └── db.js                        ✅ done
 │   ├── controllers/
-│   │   ├── auth.controller.js      ✅ done
-│   │   ├── shop.controller.js      ✅ done
-│   │   ├── item.controller.js      ✅ done
-│   │   ├── cart.controller.js      ✅ done
-│   │   └── order.controller.js     🔄 in progress
+│   │   ├── auth.controller.js           ✅ done
+│   │   ├── shop.controller.js           ✅ done
+│   │   ├── item.controller.js           ✅ done
+│   │   ├── cart.controller.js           ✅ done
+│   │   └── order.controller.js          ✅ done
 │   ├── middlewares/
-│   │   ├── auth.middleware.js      ✅ done
-│   │   ├── checkRole.middleware.js ✅ done
-│   │   └── rateLimiter.middleware.js ✅ done
+│   │   ├── auth.middleware.js           ✅ done
+│   │   ├── checkRole.middleware.js      ✅ done
+│   │   └── rateLimiter.middleware.js    ✅ done
 │   ├── models/
-│   │   ├── user.model.js           ✅ done
-│   │   ├── shop.model.js           ✅ done
-│   │   ├── item.model.js           ✅ done
-│   │   ├── cart.model.js           ✅ done
-│   │   └── order.model.js          ✅ done
+│   │   ├── user.model.js                ✅ done
+│   │   ├── shop.model.js                ✅ done
+│   │   ├── item.model.js                ✅ done
+│   │   ├── cart.model.js                ✅ done
+│   │   └── order.model.js               ✅ done
 │   ├── routes/
-│   │   ├── auth.routes.js          ✅ done
-│   │   ├── shop.routes.js          ✅ done
-│   │   ├── item.routes.js          ✅ done
-│   │   ├── cart.routes.js          ✅ done
-│   │   └── order.routes.js         🔄 in progress
+│   │   ├── auth.routes.js               ✅ done
+│   │   ├── shop.routes.js               ✅ done
+│   │   ├── item.routes.js               ✅ done
+│   │   ├── cart.routes.js               ✅ done
+│   │   └── order.routes.js              ✅ done
 │   ├── utils/
-│   │   ├── generateToken.js        ✅ done
-│   │   └── sendEmail.js            ✅ done
-│   ├── .env                        ✅ done
-│   └── index.js                    ✅ done
+│   │   ├── generateToken.js             ✅ done
+│   │   └── sendEmail.js                 ✅ done
+│   ├── .env                             ✅ done
+│   └── index.js                         ✅ done
 │
 └── frontend/
-    ├── src/
-    │   ├── PAGES/
-    │   │   └── SignUp.jsx
-    │   ├── App.jsx
-    │   └── main.jsx
-    └── package.json
+    └── src/
+        ├── api/
+        │   └── axios.js                 ✅ done
+        ├── app/
+        │   └── store.js                 ✅ done
+        ├── features/
+        │   └── auth/
+        │       └── authSlice.js         ✅ done
+        ├── components/
+        │   └── ProtectedRoute.jsx       ✅ done
+        ├── pages/
+        │   └── auth/
+        │       ├── SignUp.jsx           ✅ done
+        │       └── SignIn.jsx           ✅ done
+        ├── App.jsx                      ✅ done
+        └── main.jsx                     ✅ done
 ```
  
 ---
  
 ## ✅ What's Done So Far
  
-### 1. Backend Setup
-- Express server running on port `3000`
-- MongoDB connected via Mongoose
-- CORS configured for frontend (`http://localhost:5173`)
-- Cookie Parser and dotenv configured
-- Google DNS fix for local development issues
+### Backend
  
-### 2. Auth System
+#### Auth System
 | Feature | Route | Status |
 |--------|-------|--------|
 | Sign Up | `POST /api/auth/signup` | ✅ |
@@ -71,14 +76,15 @@ FoodDeliveryApp/
 | Verify OTP | `POST /api/auth/verify-otp` | ✅ |
 | Reset Password | `POST /api/auth/reset-password` | ✅ |
  
-### 3. Middleware
+#### Middleware
 | Middleware | Purpose | Status |
 |-----------|---------|--------|
-| `protectRoute` | Verifies JWT token from cookie, attaches user to req | ✅ |
-| `checkRole(role)` | Checks if logged in user has the required role | ✅ |
-| `rateLimiter` | Prevents brute force attacks | ✅ |
+| `protectRoute` | Verifies JWT from cookie, attaches user to req | ✅ |
+| `checkRole(role)` | Verifies logged-in user's role | ✅ |
+| `generalRateLimiter` | 100 req / 15 min on all routes | ✅ |
+| `authRateLimiter` | 10 req / 15 min on auth routes | ✅ |
  
-### 4. Shop System
+#### Shop System
 | Feature | Route | Status |
 |--------|-------|--------|
 | Create Shop | `POST /api/shop/create-shop` | ✅ |
@@ -87,7 +93,7 @@ FoodDeliveryApp/
 | Update Shop | `PUT /api/shop/:id` | ✅ |
 | Delete Shop | `DELETE /api/shop/:id` | ✅ |
  
-### 5. Item System
+#### Item System
 | Feature | Route | Status |
 |--------|-------|--------|
 | Create Item | `POST /api/item/:shopId/create-item` | ✅ |
@@ -96,59 +102,60 @@ FoodDeliveryApp/
 | Update Item | `PUT /api/item/:id` | ✅ |
 | Delete Item | `DELETE /api/item/:id` | ✅ |
  
-### 6. Cart System
+#### Cart System
 | Feature | Route | Status |
 |--------|-------|--------|
-| Add To Cart | `POST /api/cart/add` | ✅ |
+| Add To Cart | `POST /api/cart/create-cart` | ✅ |
 | Get Cart | `GET /api/cart/` | ✅ |
-| Update Quantity | `PUT /api/cart/update` | ✅ |
-| Remove Item | `DELETE /api/cart/remove/:itemId` | ✅ |
-| Clear Cart | `DELETE /api/cart/clear` | ✅ |
+| Update Quantity | `PUT /api/cart/update-cart` | ✅ |
+| Remove Item | `DELETE /api/cart/delete-item/:itemId` | ✅ |
+| Clear Cart | `DELETE /api/cart/delete-cart` | ✅ |
  
-### 7. Order System (In Progress)
+#### Order System
 | Feature | Route | Status |
 |--------|-------|--------|
-| Place Order | `POST /api/order/place` | ✅ |
+| Place Order | `POST /api/order/create-order` | ✅ |
 | Get My Orders | `GET /api/order/` | ✅ |
 | Get Order By ID | `GET /api/order/:id` | ✅ |
-| Update Order Status | `PUT /api/order/:id/status` | ❌ pending |
-| Cancel Order | `PUT /api/order/:id/cancel` | ❌ pending |
-| Get Shop Orders | `GET /api/order/shop/:shopId` | ❌ pending |
+| Update Order Status | `PUT /api/order/:orderId/status` | ✅ |
+| Cancel Order | `PUT /api/order/:orderId/cancel` | ✅ |
+| Get Shop Orders | `GET /api/order/shop/:shopId` | ✅ |
  
-### 8. Frontend
-- React + Vite setup
-- Tailwind CSS v4 configured
-- React Router DOM installed
-- SignUp page UI built
+### Frontend
+| Feature | Status |
+|--------|--------|
+| React + Vite setup | ✅ |
+| Tailwind CSS v4 (`@tailwindcss/vite`) | ✅ |
+| React Router DOM | ✅ |
+| Redux Toolkit + authSlice | ✅ |
+| Axios instance (`withCredentials: true`) | ✅ |
+| Sign Up page | ✅ |
+| Sign In page | ✅ |
+| Protected Route (redirect if not logged in) | ✅ |
  
 ---
  
 ## 🔲 What's Remaining
  
 ### Backend
-- [ ] `updateOrderStatus` controller (owner only)
-- [ ] `cancelOrder` controller (user only)
-- [ ] `getShopOrders` controller (owner only)
-- [ ] `order.routes.js` — wire up all order routes
-- [ ] Register order routes in `index.js`
- 
-### Advanced Features
-- [ ] Multer + Cloudinary (image uploads)
+- [ ] Multer + Cloudinary (image uploads for shops & items)
 - [ ] Payment integration (Razorpay)
-- [ ] Socket.io (real-time order updates)
+- [ ] Socket.io (real-time order status updates)
 - [ ] Live map tracking (Leaflet + GeoJSON)
-- [ ] Geospatial delivery boy assignment
  
-### Frontend
-- [ ] Sign In page UI
-- [ ] Auth state (Context API or Redux)
-- [ ] Protected routes
-- [ ] User dashboard (browse shops + food)
-- [ ] Cart page
-- [ ] Checkout page with map
-- [ ] Order history page
-- [ ] Owner dashboard (manage shop + items + orders)
+### Frontend — Immediate Priorities
+- [ ] **Auth persistence** — call `GET /api/auth/me` on app load to restore user from cookie (critical, page refresh kills Redux state right now)
+- [ ] Navbar / Layout component
+- [ ] Toast notifications (react-hot-toast or sonner)
+- [ ] Home page — browse shops by city
+- [ ] Shop detail page — view menu items
+- [ ] Cart page — view, update, remove items
+- [ ] Checkout / Place order page
+- [ ] Order history page (user)
+- [ ] Forgot password flow (3 steps: email → OTP → new password)
+- [ ] Owner dashboard — manage shop, items, incoming orders
 - [ ] Delivery boy dashboard
+- [ ] Global loading indicator / skeleton screens
  
 ---
  
@@ -162,8 +169,8 @@ FoodDeliveryApp/
   password: String,     // hashed with bcrypt
   mobile: String,       // required
   role: String,         // enum: ["user", "owner", "deliveryBoy"]
-  otp: String,          // for forgot password flow
-  otpExpiry: Date,      // OTP expires in 10 minutes
+  otp: String,
+  otpExpiry: Date,
   timestamps: true
 }
 ```
@@ -172,12 +179,12 @@ FoodDeliveryApp/
 ```js
 {
   name: String,         // required
-  image: String,        // shop image URL
-  owner: ObjectId,      // ref: "User" (must be role: owner)
+  image: String,
+  owner: ObjectId,      // ref: "User"
   city: String,         // required
   state: String,        // required
   address: String,      // required
-  items: [ObjectId],    // ref: "Item" array
+  items: [ObjectId],    // ref: "Item"
   timestamps: true
 }
 ```
@@ -186,7 +193,7 @@ FoodDeliveryApp/
 ```js
 {
   name: String,         // required
-  image: String,        // required, item image URL
+  image: String,        // required
   shop: ObjectId,       // ref: "Shop"
   category: String,     // enum: ["Pizza", "Burgers", "Snacks" ...]
   price: Number,        // required, min: 0
@@ -200,32 +207,25 @@ FoodDeliveryApp/
 {
   user: ObjectId,       // ref: "User", unique (one cart per user)
   items: [
-    {
-      item: ObjectId,   // ref: "Item"
-      quantity: Number  // default: 1
-    }
+    { item: ObjectId, quantity: Number }
   ],
   timestamps: true
-  // totalPrice is NOT stored — calculated on the fly using item.price * quantity
+  // totalPrice calculated on the fly
 }
 ```
  
 ### Order Model
 ```js
 {
-  user: ObjectId,       // ref: "User", required
-  shop: ObjectId,       // ref: "Shop", required
+  user: ObjectId,
+  shop: ObjectId,
   items: [
-    {
-      item: ObjectId,   // ref: "Item"
-      quantity: Number, // required
-      price: Number     // snapshot of price at time of order
-    }
+    { item: ObjectId, quantity: Number, price: Number }
   ],
-  totalPrice: Number,   // required
-  status: String,       // enum: ["pending", "confirmed", "preparing", "out_for_delivery", "delivered", "cancelled"]
-  isPaid: Boolean,      // default: false
-  deliveryAddress: String, // required
+  totalPrice: Number,
+  status: String,       // enum: ["pending","confirmed","preparing","out_for_delivery","delivered","cancelled"]
+  isPaid: Boolean,
+  deliveryAddress: String,
   timestamps: true
 }
 ```
@@ -236,25 +236,32 @@ FoodDeliveryApp/
  
 ### Backend
 | Package | Purpose |
-|---------|---------| 
+|---------|---------|
 | `express` | Web framework |
 | `mongoose` | MongoDB ODM |
 | `bcryptjs` | Password hashing |
 | `jsonwebtoken` | JWT auth tokens |
-| `cookie-parser` | Parse cookies from requests |
-| `cors` | Allow frontend to talk to backend |
-| `dotenv` | Load environment variables |
+| `cookie-parser` | Parse cookies |
+| `cors` | Allow frontend origin |
+| `dotenv` | Environment variables |
 | `nodemailer` | Send OTP emails |
-| `nodemon` | Auto restart server on changes |
-| `express-rate-limit` | Prevent brute force attacks |
+| `nodemon` | Auto-restart on save |
+| `express-rate-limit` | Brute force protection |
+| `multer` | File upload (ready, not wired) |
+| `cloudinary` | Image hosting (ready, not wired) |
  
 ### Frontend
 | Package | Purpose |
-|---------|---------| 
+|---------|---------|
 | `react` | UI library |
 | `react-router-dom` | Page routing |
-| `axios` | API calls to backend |
+| `axios` | API calls |
 | `tailwindcss` | Styling |
+| `@reduxjs/toolkit` | Global state management |
+| `react-redux` | Redux bindings for React |
+| `framer-motion` | Animations |
+| `lucide-react` | Icons |
+| `react-icons` | Extra icon sets |
  
 ---
  
@@ -270,57 +277,43 @@ PASS=your_gmail_app_password
  
 ---
  
-## 🚗 User Flow
+## 🚗 User Flows
  
+### Customer
 ```
-1. User signs up / signs in
-2. User sees list of shops based on their city
-3. User clicks shop → sees menu items
-4. User adds items to cart (stored in DB — persists across devices)
-5. User places order with delivery address
-6. User pays via Razorpay or Cash on Delivery
-7. Owner updates order status (Pending → Preparing → Out for Delivery)
-8. Delivery boy accepts order → live map tracking starts
-9. Delivery boy delivers → order marked Delivered
+Sign Up / Sign In → Browse shops by city → Open shop → Add items to cart
+→ Place order with delivery address → Track order status → View order history
 ```
  
-## 🏪 Owner Flow
- 
+### Owner
 ```
-1. Owner signs up with role "owner"
-2. Owner creates their shop (name, address, city, image)
-3. Owner adds menu items (name, price, category, image)
-4. Owner sees incoming orders on dashboard
-5. Owner updates order status
+Sign Up (role: owner) → Create shop → Add menu items
+→ View incoming orders → Update order status
 ```
  
-## 🛵 Delivery Boy Flow
- 
+### Delivery Boy
 ```
-1. Delivery boy signs up with role "deliveryBoy"
-2. Receives broadcast when order is "Out for Delivery" nearby
-3. Accepts the order
-4. Live location tracked on map
-5. Order marked as Delivered
+Sign Up (role: deliveryBoy) → Get notified when order is "out_for_delivery"
+→ Accept delivery → Live map tracking → Mark as delivered
 ```
  
 ---
  
 ## 🚀 How to Run Locally
  
-### Backend
 ```bash
+# Backend
 cd backend
 npm install
-npm run dev
-```
+npm run dev        # runs on http://localhost:3000
  
-### Frontend
-```bash
+# Frontend
 cd frontend
 npm install
-npm run dev
+npm run dev        # runs on http://localhost:5173
 ```
+ 
+> Always start the backend first, then the frontend.
  
 ---
  
@@ -328,4 +321,4 @@ npm run dev
 [Meghraj Parashar](https://github.com/MEGHRAJPARASHAR)
  
 ---
-*Last updated: March 2026*
+*Last updated: April 2026*
