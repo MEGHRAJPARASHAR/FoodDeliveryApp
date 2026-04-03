@@ -3,6 +3,7 @@ import { useDispatch} from "react-redux"
 import api from "../../api/axios"
 import {setUser,setLoading,setError} from "../../features/auth/authSlice"
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 function SignUp() {
     const [fullName, setfullName] = useState('')
     const [email, setEmail] = useState('')
@@ -34,11 +35,13 @@ function SignUp() {
             console.log(res.data)
         // Save user data in Redux store after successful registration.
             dispatch(setUser(res.data.user))
+            toast.success("Signed up successfully!")
             navigate('/') //redirect to dashboard after successful sign-up
         } catch (err) {
             console.error(err.message)
         // Prefer backend error details when available for better feedback.
             dispatch(setError(err.response?.data?.message || "An error occurred"))
+            toast.error(err.response?.data?.message || "An error occurred during sign-up")
         } finally{
             dispatch(setLoading(false)) //setting loading state to false after API call is completed, regardless of success or failure
         }
@@ -46,8 +49,7 @@ function SignUp() {
 
   return (
     <div className="signup bg-gray-950 text-white h-screen flex flex-col items-center justify-center">
-      <h1 className='text-3xl inline-block bg-linear-to-r from-purple-500 to-blue-500 git add  bg-clip-text text-transparent'>SignUp</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-2 border border-gray-500 p-4 rounded bg-linear-to-b from-gray-700 to-gray-900'>      
+      <h1 className='text-3xl inline-block bg-linear-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent'>SignUp</h1>      <form onSubmit={handleSubmit} className='flex flex-col gap-2 border border-gray-500 p-4 rounded bg-linear-to-b from-gray-700 to-gray-900'>      
         <input type="text" value={fullName} onChange={(e)=>setfullName(e.target.value)} name="fullName" placeholder="fullName" />
         <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} name="email" placeholder="Email" />
         <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="password" placeholder="Password" />
