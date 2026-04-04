@@ -19,7 +19,6 @@ import orderRouter from './routes/order.routes.js';
 import { authRateLimiter, generalRateLimiter } from './middlewares/rateLimiter.middleware.js';
 //signUp is used for user registration
 // import { signUp,signIn } from './controllers/auth.controllers.js';
-
 const app = express();
 //allowing cross-origin requests from my frontend
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -30,22 +29,14 @@ app.use(cookieParser())
 app.use(generalRateLimiter)
 //my port 
 const port = process.env.PORT || 5000;
-//
 app.get('/', (req, res) => {
     res.send("API is running....")
 });
-// //routes for signUp and signIn
-// app.post('/api/signup', signUp);
-// app.post('/api/signin', signIn);
-
 app.use("/api/auth",authRateLimiter, authRoutes);
 app.use("/api/shop", shopRoutes);
 app.use("/api/item", itemRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
-
-
-
 
 //starting the server and connecting to the database
 app.listen(port, () => {

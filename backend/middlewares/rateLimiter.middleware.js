@@ -8,7 +8,7 @@ export const generalRateLimiter= rateLimit({
 
 export const authRateLimiter= rateLimit({
     windowMs:15*60*1000,
-    limit:10,
+    limit:20,
     message:{message:"too many attempts,Please try again after 15 minutes"}
 })
 

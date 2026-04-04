@@ -6,7 +6,7 @@ import { checkRole } from "../middlewares/checkRole.middleware.js"
 const router=express.Router()
 
 router.post("/create-shop",protectRoute,checkRole("owner"),createShop)
-router.get("/",protectRoute,checkRole("owner"),getAllShops)
+router.get("/",getAllShops)
 router.get("/:id",protectRoute,checkRole("owner"),getShopById)
 router.put("/:id",protectRoute,checkRole("owner"),updateShop)
 router.delete("/:id",protectRoute,checkRole("owner"),deleteShop)
