@@ -7,6 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 FRONTEND_GUIDEE.md
+linkedin_post/
+*.md
+!README.md
 instructions.md
 node_modules
 dist
