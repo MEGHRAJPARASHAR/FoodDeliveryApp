@@ -1,4 +1,4 @@
-# 🍕 Bingo — Food Delivery App
+# 🍕 Food Delivery App
  
 > A full-stack MERN food delivery app (Zomato/Swiggy clone) with JWT auth, role-based access control, DB-backed cart, and order management.
 > **Stack:** MongoDB · Express 5 · React 19 · Node.js
@@ -289,12 +289,6 @@ Sign Up / Sign In → Browse shops by city → Open shop → Add items to cart
 ```
 Sign Up (role: owner) → Create shop → Add menu items
 → View incoming orders → Update order status
-```
- 
-### Delivery Boy
-```
-Sign Up (role: deliveryBoy) → Get notified when order is "out_for_delivery"
-→ Accept delivery → Live map tracking → Mark as delivered
 ```
  
 ---
