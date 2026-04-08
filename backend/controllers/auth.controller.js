@@ -180,4 +180,20 @@ export const resetPassword=async (req,res) => {
     } catch (error) {
         return res.status(500).json({message:"Internal error"})
     }
-}   
+}
+export const searchUsers = async (req, res) => {
+    try {
+        const { q } = req.query
+        if (!q || q.trim() === "") {
+            return res.status(400).json({ message: "Search query is required" })
+        }
+        // case-insensitive search on fullName
+        const users = await User.find({
+            fullName: { $regex: q.trim(), $options: "i" }
+        }).select("-password")
+        return res.status(200).json({ users })
+    } catch (error) {
+        console.log("error in searchUsers", error)
+        return res.status(500).json({ message: "Internal server error" })
+    }
+}

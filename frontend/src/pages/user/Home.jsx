@@ -27,9 +27,14 @@ function Home() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold">Home Page</h1>
-      <Link to="/cart" className="mt-2 inline-block rounded border border-black px-4 py-2">
-        Go To Cart
-      </Link>
+      <div className="mt-2 flex gap-4">
+        <Link to="/cart" className="inline-block rounded border border-black px-4 py-2">
+          Go To Cart
+        </Link>
+        <Link to="/search" className="inline-block rounded border border-black px-4 py-2">
+          Search Users
+        </Link>
+      </div>
       
       <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {shops.map((shop) => (
