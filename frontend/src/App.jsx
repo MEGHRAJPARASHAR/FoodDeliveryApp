@@ -8,6 +8,7 @@ import api from './api/axios'
 import { setUser,setLoading } from './features/auth/authSlice'
 import Home from './pages/user/Home'
 import Cart from './pages/user/Cart'
+import SearchUsers from './pages/user/SearchUsers'
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -21,6 +22,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+      <Route path="/search" element={<ProtectedRoute><SearchUsers /></ProtectedRoute>} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
     </Routes>
